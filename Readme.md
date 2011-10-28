@@ -1,4 +1,4 @@
-Chrome has a `--user-agent` flag that is supposed to change the user agent, the current dev version (16.0.912.12) ignores the flag. See [bug 102220](http://crbug.com/102220) for more details.
+Chrome has a `--user-agent` flag that is supposed to change the user agent, but the current dev version (16.0.912.12) ignores the flag. See [bug 102220](http://crbug.com/102220) for more details.
 
 This is the simplest User-Agent switcher for Google Chrome that I wrote several months ago but it didn't work yet. But now it works! Steps to use:
 

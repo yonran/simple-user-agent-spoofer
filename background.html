@@ -9,16 +9,15 @@ chrome.experimental.webRequest.onBeforeSendHeaders.addListener(
     handleBeforeSend, {}, ['blocking', 'requestHeaders']);
 
 function handleBeforeSend(details) {
-  var i;
-  var r = [];
-  for (i = 0; i < details.requestHeaders.length; i++) {
+  for (var i = 0; i < details.requestHeaders.length; i++) {
     var header = details.requestHeaders[i];
-    if ('User-Agent' !== header.name) {
-      continue;
+    if ('User-Agent' === header.name) {
+      header.value = ua;
+      break;
     }
-    header.value = ua;
-    break;
   }
+  // Unfortunately, you can't just return details, because Chrome complains
+  // about all the extra properties in it.
   return {requestHeaders: details.requestHeaders};
 }
 
