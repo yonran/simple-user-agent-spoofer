@@ -1,0 +1,33 @@
+<script>
+var ua = "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.18) Gecko/20110628 Ubuntu/10.04 (lucid) Firefox/3.6.18";
+
+// It seems that enough of the webRequest experimental API has been
+// implkemented as of 16.0.912.12 (Official Build 107048) dev;
+// see the bug for the full details.
+// http://crbug.com/60101
+chrome.experimental.webRequest.onBeforeSendHeaders.addListener(
+    handleBeforeSend, {}, ['blocking', 'requestHeaders']);
+
+function handleBeforeSend(details) {
+  var i;
+  var r = [];
+  for (i = 0; i < details.requestHeaders.length; i++) {
+    var header = details.requestHeaders[i];
+    if ('User-Agent' !== header.name) {
+      continue;
+    }
+    header.value = ua;
+    break;
+  }
+  return {requestHeaders: details.requestHeaders};
+}
+
+/* For debugging:
+chrome.experimental.webRequest.onSendHeaders.addListener(
+    handleSent, {}, ['requestHeaders']);
+function handleSent(details) {
+  console.log(details.url);
+  console.log(details.requestHeaders);
+}
+*/
+</script>
