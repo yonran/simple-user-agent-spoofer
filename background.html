@@ -5,8 +5,8 @@ var ua = "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.18) Gecko/20110628 
 // implkemented as of 16.0.912.12 (Official Build 107048) dev;
 // see the bug for the full details.
 // http://crbug.com/60101
-chrome.experimental.webRequest.onBeforeSendHeaders.addListener(
-    handleBeforeSend, {}, ['blocking', 'requestHeaders']);
+chrome.webRequest.onBeforeSendHeaders.addListener(
+    handleBeforeSend, {urls: ['https://*/*', "http://*/*"]}, ['blocking', 'requestHeaders']);
 
 function handleBeforeSend(details) {
   for (var i = 0; i < details.requestHeaders.length; i++) {
@@ -16,7 +16,7 @@ function handleBeforeSend(details) {
       break;
     }
   }
-  // Unfortunately, you can't just return details, because Chrome complains
+  // Unfortunately, we can't just return details, because Chrome complains
   // about all the extra properties in it.
   return {requestHeaders: details.requestHeaders};
 }
